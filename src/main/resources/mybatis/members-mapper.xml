@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MemberDAO">
+
+	<insert id="join">
+		insert into members values(#{id},#{pw},#{name},#{phone,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR},#{zipcode,jdbcType=VARCHAR},#{address1,jdbcType=VARCHAR},#{address2,jdbcType=VARCHAR},default,#{profileImage})
+	</insert>
+
+	<select id="login" resultType="int">
+		select count(*) from members where id=#{id} and pw=#{pw}
+	</select>
+	
+</mapper>
