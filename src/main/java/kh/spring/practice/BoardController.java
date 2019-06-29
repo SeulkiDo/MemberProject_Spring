@@ -53,8 +53,18 @@ public class BoardController {
 
       @RequestMapping("/write")
       public String write(BoardDTO dto, MultipartFile imageFile) {
-         String writer = (String) session.getAttribute("loginId");
-         String resourcePath = session.getServletContext().getRealPath("/resources");
+    	    String writer = (String) session.getAttribute("loginId");
+    	  
+    		String path = "D:\\SpringOnly\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\MemberProject\\resources\\";
+    		File dir = new File(path + "boardImages/" + writer); //폴더경로
+    		System.out.println("폴더 존재? : " + dir.isDirectory());
+    		if(!dir.isDirectory()) { // 폴더가 있는지 확인.
+    			System.out.println("폴더생성");
+    			dir.mkdirs(); // 없으면 생성
+    		}
+
+        
+         String resourcePath = session.getServletContext().getRealPath("/resources/boardImages/"+writer);
          String renamedFilePath = resourcePath + "/" + writer + "_" +System.currentTimeMillis()+ "_boardImage.png";
          System.out.println(writer);
          String result = null;
@@ -77,26 +87,26 @@ public class BoardController {
          return "redirect:board?currentPage=1";
       }
       
-      @ResponseBody
-      @RequestMapping("/showImage")
-      public String imageUpload(BoardDTO dto, MultipartFile formData) {
-
-         String writer = (String) session.getAttribute("loginId");
-         String resourcePath = session.getServletContext().getRealPath("/resources");
-         String renamedFilePath = resourcePath + "/" + writer + "_" +System.currentTimeMillis()+ "_boardImage.png";
-         System.out.println(writer);
-         String result = null;
-          try {
-             File newFile = new File(resourcePath + "/" + writer + "_"+System.currentTimeMillis()+ "_boardImage.png");
-             formData.transferTo(newFile);
-             String filePath = "/resources/" + newFile.getName();
-             result = newFile.getName();
-         }catch (IOException e) {
-            e.printStackTrace();
-         }
-         return result;
-      
-      }
+//      @ResponseBody
+//      @RequestMapping("/showImage")
+//      public String imageUpload(BoardDTO dto, MultipartFile formData) {
+//
+//         String writer = (String) session.getAttribute("loginId");
+//         String resourcePath = session.getServletContext().getRealPath("/resources");
+//         String renamedFilePath = resourcePath + "/" + writer + "_" +System.currentTimeMillis()+ "_boardImage.png";
+//         System.out.println(writer);
+//         String result = null;
+//          try {
+//             File newFile = new File(renamedFilePath);
+//             formData.transferTo(newFile);
+//             //String filePath = "/resources/" + newFile.getName();
+//             result = newFile.getName();
+//         }catch (IOException e) {
+//            e.printStackTrace();
+//         }
+//         return result;
+//      
+//      }
       
       @RequestMapping("/read")
       public String read(HttpServletRequest request) {
@@ -123,16 +133,16 @@ public class BoardController {
       @RequestMapping("/edit")
       public String edit(BoardDTO dto, MultipartFile imageFile) {
     	  System.out.println("수정된 글내용 : " + dto.getContents());
-    	  
+    	
     	   String writer = (String) session.getAttribute("loginId");
-           String resourcePath = session.getServletContext().getRealPath("/resources");
+           String resourcePath = session.getServletContext().getRealPath("/resources/boardImages/"+writer);
            String renamedFilePath = resourcePath + "/" + writer + "_" +System.currentTimeMillis()+ "_boardImage.png";
  
            String result = null;
             try {
                File newFile = new File(resourcePath + "/" + writer + "_"+System.currentTimeMillis()+ "_boardImage.png");
                imageFile.transferTo(newFile);
-               String filePath = "/resources/" + newFile.getName();
+               String filePath = "/resources/boardImages/" +writer + "/" + newFile.getName();
                result = newFile.getName();
                dto.setImage(newFile.getName());
                System.out.println("newFile.getName() : " + newFile.getName());

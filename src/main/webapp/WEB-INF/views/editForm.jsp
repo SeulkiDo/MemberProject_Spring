@@ -117,14 +117,14 @@
                 	var formData = new FormData();
                 	formData.append("formData",$(this)[0].files[0]);
                 	$.ajax({
-                		url:"showImage",
+                		url:"/getImage",
                 		type: "post",
                 		processData: false,
                 		contentType: false,
                 		data: formData
                 	}).done(function(resp){
                 		console.log(resp);
-                		$("#inputContents").append("<img src='/image/" + resp + "'>");
+                		$("#inputContents").append("<img src='/images/temp/" + resp + "'>");
                 	})
                 })
                 

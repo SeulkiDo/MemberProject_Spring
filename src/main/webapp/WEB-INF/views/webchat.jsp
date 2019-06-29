@@ -68,7 +68,7 @@
 	</div>
 	
 	<script>
-		var socket = new WebSocket("ws://192.168.60.27/chat"); 
+		var socket = new WebSocket("ws://localhost/chat"); 
 		socket.onmessage = function(event){
 		/*2-1. 서버로부터 메시지가 도착한 경우 : contents에 받은 메세지 넣기*/
 		$(".contents").append(event.data);

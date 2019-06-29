@@ -107,7 +107,7 @@ tr>td:first-child {
        // alert($(this)[0].files[0]);
         formData.append("formData",$(this)[0].files[0]);
         $.ajax({
-           url:"profileImageUpload",
+           url:"getImage",
            type: "post",
            processData: false, 
            contentType: false,
@@ -119,7 +119,7 @@ tr>td:first-child {
            console.log(image);
           var time = new Date().getTime();
           console.log("time : " + time);
-           $("#profile").html("<img src='/image/"+resp+"?time="+time+"'>");
+           $("#profile").html("<img src='/images/temp/"+resp+"?time="+time+"'>");
         });
      })
       

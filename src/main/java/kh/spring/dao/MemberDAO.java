@@ -11,4 +11,5 @@ public interface MemberDAO {
 	  public MemberDTO myInfo(String id) throws Exception;
 	  public List<MemberDTO> selectAll() throws Exception;
 	  public int updateMyInfo(MemberDTO dto,String id) throws Exception;
+	  public int updateMyImage(String id) throws Exception;
 }

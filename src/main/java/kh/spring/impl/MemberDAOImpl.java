@@ -93,15 +93,15 @@ public class MemberDAOImpl implements MemberDAO{
    }
 
    
-   public int updateMyInfo(MemberDTO dto,String id) {
-	      String sql = "update members set pw=?, phone=?, zipcode=?, address1=?, address2=?, profileImage=? where id='"+id+"'";
-	      return template.update(sql, dto.getPw(),dto.getPhone(),dto.getZipcode(),dto.getAddress1(),dto.getAddress2(),dto.getProfileImage());
-	   }
-   
 //   public int updateMyInfo(MemberDTO dto,String id) {
-//      String sql = "update members set pw=?, phone=?, zipcode=?, address1=?, address2=? where id='"+id+"'";
-//      return template.update(sql, dto.getPw(),dto.getPhone(),dto.getZipcode(),dto.getAddress1(),dto.getAddress2());
-//   }
+//	      String sql = "update members set pw=?, phone=?, zipcode=?, address1=?, address2=?, profileImage=? where id='"+id+"'";
+//	      return template.update(sql, dto.getPw(),dto.getPhone(),dto.getZipcode(),dto.getAddress1(),dto.getAddress2(),dto.getProfileImage());
+//	   }
+   
+   public int updateMyInfo(MemberDTO dto,String id) {
+      String sql = "update members set pw=?, phone=?, zipcode=?, address1=?, address2=? where id='"+id+"'";
+      return template.update(sql, dto.getPw(),dto.getPhone(),dto.getZipcode(),dto.getAddress1(),dto.getAddress2());
+   }
    
    public int updateMyImage(String id) {
       String sql = "update members set profileImage=? where id='"+id+"'";

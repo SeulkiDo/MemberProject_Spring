@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -298,7 +298,7 @@ div {
          <div class="row col-12 p-0 m-0" id=contents>
             <c:forEach var="list" items="${boardList }">
 	               <div class="col-lg-1 col-sm-1">${list.seq}</div>
-	               <div class="col-lg-3 col-sm-5 imageBox"><img src="/image/${list.image}" class="images"></div>
+	               <div class="col-lg-3 col-sm-5 imageBox"><img src="/images/boardImages/${list.writer}/${list.image}" class="images"></div>
 	               <div class="col-lg-4 col-sm-6 titles" value="${list.seq}">${list.title}</div>
 	               <div class="col-lg-1 col-sm-4">${list.writer}</div>
 	               <div class="col-lg-2 col-sm-4">${list.writeDate}</div>

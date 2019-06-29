@@ -110,7 +110,7 @@
                    var formData = new FormData();
                    formData.append("formData",$(this)[0].files[0]);
                    $.ajax({
-                      url: "showImage",
+                      url: "getImage",
                       type: "post",
                       processData: false,
                       contentType: false,
@@ -118,8 +118,8 @@
                    }).done(function(resp){
                       console.log(resp);
                       var time = new Date().getTime();
-//                       $("#inputContents").append("<img src='/image/" + resp + "?time="+time + "'>");
-                      $("#inputContents").append("<img src='/image/" + resp + "'>");
+                      $("#inputContents").append("<img src='/images/temp/" + resp + "?time="+time + "'>");
+//                       $("#inputContents").append("<img src='/images/temp/" + resp + "'>");
                    })
                 })
                 
