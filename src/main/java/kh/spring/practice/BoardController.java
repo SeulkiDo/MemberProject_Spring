@@ -87,9 +87,9 @@ public class BoardController {
          System.out.println(writer);
          String result = null;
           try {
-             File newFile = new File(resourcePath + "/" + writer + "_"+System.currentTimeMillis()+ "_boardImage.png");
+             File newFile = new File(renamedFilePath);
              formData.transferTo(newFile);
-             String filePath = "/resources/" + newFile.getName();
+             //String filePath = "/resources/" + newFile.getName();
              result = newFile.getName();
          }catch (IOException e) {
             e.printStackTrace();
@@ -123,7 +123,7 @@ public class BoardController {
       @RequestMapping("/edit")
       public String edit(BoardDTO dto, MultipartFile imageFile) {
     	  System.out.println("수정된 글내용 : " + dto.getContents());
-    	  
+    	
     	   String writer = (String) session.getAttribute("loginId");
            String resourcePath = session.getServletContext().getRealPath("/resources");
            String renamedFilePath = resourcePath + "/" + writer + "_" +System.currentTimeMillis()+ "_boardImage.png";

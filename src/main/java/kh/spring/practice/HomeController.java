@@ -32,190 +32,206 @@ import kh.spring.impl.MemberDAOImpl;
 
 @Controller
 public class HomeController {
-	
+
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
- 
-   @Autowired
-   private HttpSession session;
-   @Autowired
-   private MemberDAOImpl dao;
-   
-   @RequestMapping("/")
-   public String index() {
-      session.getAttribute("loginId");
-      session.getAttribute("loginResult");
-      return "home";
-   }
-   
-   @RequestMapping("error")
-   public String error() {
-	   return "error";
-   }
-   
-   @RequestMapping("/joinForm")
-   public String SignupForm() {
-      return "joinForm";
-   }
-   
-   @RequestMapping("/join")
-   public String join(MemberDTO dto, MultipartFile image) {
-	 
-      String resourcePath = session.getServletContext().getRealPath("/resources");
-      System.out.println("resourcePath(join) : " + resourcePath);
-      try {
-         File newFile = new File(resourcePath+"/"+dto.getId() +"_profileImage.png");
-         image.transferTo(newFile);
-         String filePath = "/resources/" + newFile.getName();
-         System.out.println(filePath);
-         dto.setProfileImage(newFile.getName());
-         System.out.println(dto.getId());
-         dao.join(dto);
-      
-   //   System.out.println(dto.getProfileImage());
-      } catch (IOException e) {
-         e.printStackTrace();
-      }
-      
-      return "home";
-   }
-      
-   @RequestMapping("/login")
-   public String login(MemberDTO dto, HttpServletRequest request) {   
-	   /*MyBatis---*/
-	   String id = request.getParameter("id");
-	   String pw = request.getParameter("pw");
-	   dto.setId(id);
-	   dto.setPw(pw);
-	   int loginResult = dao.login(dto);
-	   /*---MyBatis*/
-	  session.setAttribute("loginId", dto.getId());
-      session.setAttribute("loginResult", loginResult);
-      request.setAttribute("myInfo", dao.myInfo(dto.getId()));
-      return "home";
-   }
-   
-   @RequestMapping("/logout")
-   public String logout() {
-      session.invalidate();
-      return "home";
-   }
-   
-   @ResponseBody
-   @RequestMapping("/idDuplCheck")
-   public String idDuplcheck(String id, HttpServletRequest request) {
-      System.out.println("idDuplCheck");
-      String inputId = request.getParameter("inputId");
-      int idDuplCheckResult = dao.idDuplCheck(inputId);
-      if(idDuplCheckResult>0) {
-         return "x"; //사용 불가
-      }else {
-         return "o"; //사용가능
-      }
-   }
-   
-   
-   @ResponseBody
-   @RequestMapping("/profileImageUpload")
-   public String uploadProc(MemberDTO dto, MultipartFile formData) {
-      String resourcePath = session.getServletContext().getRealPath("/resources");
-      String renamedFilePath = resourcePath+"/temp_profileImage.png";
-      System.out.println("resourcePath(profileImageUpload) : " + resourcePath);
-      String result = null;
-      try {
-         File newFile = new File(resourcePath+"/temp_profileImage.png");
-         formData.transferTo(newFile);
-         String filePath = "/resources/" + newFile.getName();
-         result = newFile.getName();
-         System.out.println(filePath);
-         dto.setProfileImage(newFile.getName());
-         
-         System.out.println(result);
-     
-      } catch (IOException e) {
-         e.printStackTrace();
-      }
-	return result;
-      
-   }
-   
-   @RequestMapping("/myInfo")
-   public String myInfo(HttpServletRequest request, MemberDTO dto, MultipartFile image) {
-      try {
-         String id = (String) session.getAttribute("loginId");
-         request.setAttribute("myInfo", dao.myInfo(id));
-      } catch (Exception e) {
-         e.printStackTrace();
-      }
-      
-      return "myPage";
-   }
-   @RequestMapping("/updateMyInfo")
-   public String updateMyInfo(HttpServletRequest request, MemberDTO dto, MultipartFile image) {
-      String id = (String) session.getAttribute("loginId");
-      String resourcePath = session.getServletContext().getRealPath("/resources");
-      System.out.println("resourcePath : " + resourcePath);
-      try {
-         File newFile = new File(resourcePath+"/"+id +"_profileImage.png");
-         image.transferTo(newFile);
-         String filePath = "/resources/" + newFile.getName();
-         System.out.println(filePath);
-         dto.setProfileImage(newFile.getName());
-         
-         session.setAttribute("myProfileImage", dto.getProfileImage());
-         System.out.println(filePath);
-    	  
-         dao.updateMyInfo(dto, id);   
-      } catch (Exception e) {
-         e.printStackTrace();
-      }
-      return "home";
-   }
-   
-   @RequestMapping("/updateImagePopUp")
-   public String gotoUpdateImage(HttpServletRequest request){
-      return "updateImage";
-   }
-   
-   @ResponseBody
-   @RequestMapping("/updateImage")
-   public String updateImage(HttpServletRequest request, MultipartFile formData) {
-	 System.out.println("updateImage");
-      String id = (String) session.getAttribute("loginId");
-      System.out.println("아이디" + id);
-      String resourcePath = session.getServletContext().getRealPath("/resources");
-      System.out.println("resourcePath : " + resourcePath);
-      System.out.println("image : " + formData);
-//      try {
-//         File newFile = new File(resourcePath+"/"+id +"_profileImage.png");
-//         image.transferTo(newFile);
-//       
-//     
-//         
-//      } catch (Exception e) {
-//         e.printStackTrace();
-//      }
-//      return "myPage";
-      String result = null;
-      try {
-         File newFile = new File(resourcePath+"/temp_profileImage.png");
-         formData.transferTo(newFile);
-         String filePath = "/resources/" + newFile.getName();
-         result = newFile.getName();
-    
-         System.out.println(result);
-     
-      } catch (IOException e) {
-         e.printStackTrace();
-      }
-	return result;
-   }
-   
-	
+
+	@Autowired
+	private HttpSession session;
+	@Autowired
+	private MemberDAOImpl dao;
+
+	@RequestMapping("/")
+	public String index() {
+		session.getAttribute("loginId");
+		session.getAttribute("loginResult");
+		return "home";
+	}
+
+	@RequestMapping("error")
+	public String error() {
+		return "error";
+	}
+
+	@RequestMapping("/joinForm")
+	public String SignupForm() {
+		return "joinForm";
+	}
+
+	@RequestMapping("/join")
+	public String join(MemberDTO dto, MultipartFile image) {
+		File dir = new File("/resources/profileImages"); //폴더경로
+		System.out.println("파일 존재? : " + dir.isDirectory());
+		if(!dir.isDirectory()) { // 폴더가 있는지 확인.
+			System.out.println("폴더생성");
+			dir.mkdirs(); // 없으면 생성
+		}
+
+		String resourcePath = session.getServletContext().getRealPath("/resources/profileImages");
+		System.out.println("resourcePath(join) : " + resourcePath);
+		try {
+			File newFile = new File(resourcePath+"/"+dto.getId() +"_profileImage.png");
+			image.transferTo(newFile);
+			String filePath = "/resources/" + newFile.getName();
+			System.out.println(filePath);
+			dto.setProfileImage(newFile.getName());
+			System.out.println(dto.getId());
+			dao.join(dto);
+
+			//   System.out.println(dto.getProfileImage());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return "home";
+	}
+
+	@RequestMapping("/login")
+	public String login(MemberDTO dto, HttpServletRequest request) {   
+		/*MyBatis---*/
+		String id = request.getParameter("id");
+		String pw = request.getParameter("pw");
+		dto.setId(id);
+		dto.setPw(pw);
+		int loginResult = dao.login(dto);
+		/*---MyBatis*/
+		session.setAttribute("loginId", dto.getId());
+		session.setAttribute("loginResult", loginResult);
+		request.setAttribute("myInfo", dao.myInfo(dto.getId()));
+		return "home";
+	}
+
+	@RequestMapping("/logout")
+	public String logout() {
+		session.invalidate();
+		return "home";
+	}
+
+	@ResponseBody
+	@RequestMapping("/idDuplCheck")
+	public String idDuplcheck(String id, HttpServletRequest request) {
+		System.out.println("idDuplCheck");
+		String inputId = request.getParameter("inputId");
+		int idDuplCheckResult = dao.idDuplCheck(inputId);
+		if(idDuplCheckResult>0) {
+			return "x"; //사용 불가
+		}else {
+			return "o"; //사용가능
+		}
+	}
+
+
+	@ResponseBody
+	@RequestMapping("/profileImageUpload")
+	public String uploadProc(MemberDTO dto, MultipartFile formData) {
+		
+		File dir = new File("/resources/profileImages"); //폴더경로
+		System.out.println("파일 존재? : " + dir.isDirectory());
+		if(!dir.isDirectory()) { // 폴더가 있는지 확인.
+			System.out.println("폴더생성");
+			dir.mkdirs(); // 없으면 생성
+		}
+		
+		
+		String resourcePath = session.getServletContext().getRealPath("/resources/profileImages");
+		String renamedFilePath = resourcePath+"/temp_profileImage.png";
+		System.out.println("resourcePath(profileImageUpload) : " + resourcePath);
+		String result = null;
+
+		try {
+			File newFile = new File(resourcePath+"/temp_profileImage.png");
+			formData.transferTo(newFile);
+			String filePath = "/resources/" + newFile.getName();
+			result = newFile.getName();
+			System.out.println(filePath);
+			dto.setProfileImage(newFile.getName());
+
+			System.out.println(result);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
+
+	}
+
+	@RequestMapping("/myInfo")
+	public String myInfo(HttpServletRequest request, MemberDTO dto, MultipartFile image) {
+		try {
+			String id = (String) session.getAttribute("loginId");
+			request.setAttribute("myInfo", dao.myInfo(id));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "myPage";
+	}
+	@RequestMapping("/updateMyInfo")
+	public String updateMyInfo(HttpServletRequest request, MemberDTO dto, MultipartFile image) {
+		String id = (String) session.getAttribute("loginId");
+		String resourcePath = session.getServletContext().getRealPath("/resources");
+		System.out.println("resourcePath : " + resourcePath);
+		try {
+			File newFile = new File(resourcePath+"/"+id +"_profileImage.png");
+			image.transferTo(newFile);
+			String filePath = "/resources/" + newFile.getName();
+			System.out.println(filePath);
+			dto.setProfileImage(newFile.getName());
+
+			session.setAttribute("myProfileImage", dto.getProfileImage());
+			System.out.println(filePath);
+
+			dao.updateMyInfo(dto, id);   
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "home";
+	}
+
+	@RequestMapping("/updateImagePopUp")
+	public String gotoUpdateImage(HttpServletRequest request){
+		return "updateImage";
+	}
+
+	@ResponseBody
+	@RequestMapping("/updateImage")
+	public String updateImage(HttpServletRequest request, MultipartFile formData) {
+		System.out.println("updateImage");
+		String id = (String) session.getAttribute("loginId");
+		System.out.println("아이디" + id);
+		String resourcePath = session.getServletContext().getRealPath("/resources");
+		System.out.println("resourcePath : " + resourcePath);
+		System.out.println("image : " + formData);
+		//      try {
+		//         File newFile = new File(resourcePath+"/"+id +"_profileImage.png");
+		//         image.transferTo(newFile);
+		//       
+		//     
+		//         
+		//      } catch (Exception e) {
+		//         e.printStackTrace();
+		//      }
+		//      return "myPage";
+		String result = null;
+		try {
+			File newFile = new File(resourcePath+"/temp_profileImage.png");
+			formData.transferTo(newFile);
+			String filePath = "/resources/" + newFile.getName();
+			result = newFile.getName();
+
+			System.out.println(result);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+
 	@RequestMapping("/webchat")
 	public String webchat() {
 		return "webchat";
 	}
-   
+
 
 
 }

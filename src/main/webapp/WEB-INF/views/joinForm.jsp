@@ -119,7 +119,7 @@ tr>td:first-child {
            console.log(image);
           var time = new Date().getTime();
           console.log("time : " + time);
-           $("#profile").html("<img src='/image/"+resp+"?time="+time+"'>");
+           $("#profile").html("<img src='/image/profileImages/"+resp+"?time="+time+"'>");
         });
      })
       
