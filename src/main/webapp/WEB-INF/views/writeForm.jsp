@@ -151,7 +151,7 @@
     </head>
     <body>
         <div class="container">
-        <form action="write" method="post" id="writeForm" enctype="multipart/form-data">
+        <form action="write_MembersOnly" method="post" id="writeForm" enctype="multipart/form-data">
             <div class="row" id="header"><div class="col-12 headerTitle"><h3>글작성</h3></div></div>
             <div class="row" id="titleBox">
                 <div class="col-12">

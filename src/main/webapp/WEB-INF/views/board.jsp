@@ -236,7 +236,7 @@ div {
 <script>
    $(function() {
       $("#writeBtn").on("click", function() {
-         location.href = "writeForm";
+         location.href = "writeForm_MembersOnly";
       })
       $("#goBackBtn").on("click",function(){
           $(location).attr("href","/");

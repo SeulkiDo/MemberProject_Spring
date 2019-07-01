@@ -109,11 +109,11 @@
                 })
                 
                  $("#deleteBtn").on("click",function(){
-                    $(location).attr("href","delete?seq=${selectedArticle.seq}");
+                    $(location).attr("href","delete_MembersOnly?seq=${selectedArticle.seq}");
                 })
                 
                 $("#editBtn").on("click",function(){
-                	$(location).attr("href","editForm?seq=${selectedArticle.seq}");
+                	$(location).attr("href","editForm_MembersOnly?seq=${selectedArticle.seq}");
                 })
                   
                  
@@ -126,7 +126,7 @@
     </head>
     <body>
         <div class="container">
-        <form action="write" method="post" name="writeForm" id="writeForm" enctype="multipart/form-data">
+        <form action="write_MembersOnly" method="post" name="writeForm" id="writeForm" enctype="multipart/form-data">
             <div class="row" id="header">
              	<div class="col-2 headerTitle">
                      ${selectedArticle.seq}

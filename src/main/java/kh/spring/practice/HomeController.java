@@ -40,6 +40,7 @@ public class HomeController {
 	@Autowired
 	private MemberDAOImpl dao;
 
+	
 	@RequestMapping("/")
 	public String index() {
 		return "home";
@@ -60,7 +61,7 @@ public class HomeController {
 		
 		String path = "D:\\SpringOnly\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\MemberProject\\resources\\profileImages\\";
 		File dir = new File(path + dto.getId()+"/"); //폴더경로
-		System.out.println("폴더 존재? : " + dir.isDirectory());
+		//System.out.println("폴더 존재? : " + dir.isDirectory());
 		if(!dir.isDirectory()) { // 폴더가 있는지 확인.
 			System.out.println("폴더생성");
 			dir.mkdirs(); // 없으면 생성
@@ -79,6 +80,7 @@ public class HomeController {
 			//   System.out.println(dto.getProfileImage());
 		} catch (IOException e) {
 			e.printStackTrace();
+			return "error";
 		}
 
 		return "home";
@@ -151,6 +153,7 @@ public class HomeController {
 
 		} catch (IOException e) {
 			e.printStackTrace();
+			return "error";
 		}
 		return result;
 
@@ -163,6 +166,7 @@ public class HomeController {
 			request.setAttribute("myInfo", dao.myInfo(id));
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "error";
 		}
 
 		return "myPage";
@@ -187,6 +191,7 @@ public class HomeController {
 			dao.updateMyInfo(dto, id);   
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "error";
 		}
 		return "home";
 	}

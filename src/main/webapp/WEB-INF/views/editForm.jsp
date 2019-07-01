@@ -146,7 +146,7 @@
     </head>
     <body>
         <div class="container">
-        <form action="edit" method="post" name="editForm" id="editForm" enctype="multipart/form-data">
+        <form action="edit_MembersOnly" method="post" name="editForm" id="editForm" enctype="multipart/form-data">
             <div class="row" id="header">
             	<input type="hidden" value="${selectedArticle.seq}" name="seq">
                <div class="col-12 headerTitle">
