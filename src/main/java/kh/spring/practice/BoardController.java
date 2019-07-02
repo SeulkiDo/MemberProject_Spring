@@ -184,14 +184,21 @@ public class BoardController {
       }
       
       @ResponseBody
-      @RequestMapping("insertComments")
+      @RequestMapping(value="insertComments", produces = "application/text; charset=utf8")
       public String insertComments(HttpServletRequest request, CommentsDTO cdto) {
     	  int seq = Integer.parseInt(request.getParameter("seq"));
+    	  String writer = request.getParameter("writer"); 
+    	  String comments = request.getParameter("comments");
     	  cdto.setSeq(seq);
-    	  JsonObject obj = new JsonObject();
-    	
-    	  cdao.insertComment(cdto);
+    	  cdto.setWriter(writer);
+    	  cdto.setComment(comments);
     	  
+    	  JsonObject obj = new JsonObject();
+    	  obj.addProperty("seq", seq);
+    	  obj.addProperty("writer", writer);
+    	  obj.addProperty("comments", comments);
+    	  cdao.insertComment(cdto);
+    	  System.out.println(cdto.getComment()); 
     	  return new Gson().toJson(obj); 
       }
       

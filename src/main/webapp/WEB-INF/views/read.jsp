@@ -151,20 +151,25 @@
                 })
                
                 $("#commentBtn").on("click",function(){
-                	var comments = $("#inputComment").val();
+                 	var c_seq = ${selectedArticle.seq};
+                	
+                 	var c_comments = $("#inputComment").val();
+                	
                 	$.ajax({
                 		url:"insertComments",
                 		type: "post",
                 		dataType: "json",
-                		data: { seq : "${selectedArticle.seq}",
-                			   comments : "comments"
-                 			}
+                		contentType: "application/x-www-form-urlencoded; charset=UTF-8",  
+                		data: {
+                			seq:c_seq,
+                			writer: "${loginId}",
+                			comments:c_comments
+                			}
                 	
                 	}).done(function(resp){
                 		
-                		console.log("resp : " + resp);
                 		console.log("resp.comments : " + resp.comments);
-                		//$(".oneOfComments").append("<div class="col-8 commentTitle"></div><div class="col-2 commentWriter"></div><div class="col-2 commentDate"></div>");
+                		$(".oneOfComments").append("<div class='col-8 commentTitle'>"+resp.comments+"</div><div class='col-2 commentWriter'>"+resp.writer+"</div><div class='col-2 commentDate'></div>");
                 	})
                 })
                  
@@ -262,7 +267,7 @@
                      <input type="text" id="inputComment" name="comment">
                 </div>
                 <div class="col-2">
-                     <input class="btn btns" id="commentBtn" value="댓글등록">
+                     <input type="button" class="btn btns" id="commentBtn" value="댓글등록">
                 </div>
             </div>
         </form>
