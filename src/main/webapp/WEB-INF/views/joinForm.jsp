@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>SignUpForm</title>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <style>
 #wrapper {
    margin: 0px auto;
@@ -30,7 +30,10 @@ tr>td:first-child {
 	width: 300px;
 }
 
-
+img{
+	width: 360px;
+	height:360px;
+}
 
 #idCheckMsg {
    font-size: 9px;
@@ -102,26 +105,24 @@ tr>td:first-child {
       })
       
       /*실시간 이미지*/
-     $("#image").on("input",function(){
+     $("#image").on("change",function(){
         var formData = new FormData();
        // alert($(this)[0].files[0]);
         formData.append("formData",$(this)[0].files[0]);
         $.ajax({
-           url:"profileImageUpload",
+           url:"getImage",
            type: "post",
            processData: false, 
            contentType: false,
            data: formData
-           
         }).done(function(resp){
            console.log(resp);
-           
            console.log(image);
           var time = new Date().getTime();
           console.log("time : " + time);
-           $("#profile").html("<img src='/image/profileImages/"+resp+"?time="+time+"'>");
-        });
-     })
+
+           $("#profile").html("<img src='/images/temp/"+resp+"?time="+time+"'>");
+       })
       
        /*회원가입 제출*/
 //       $("#submitBtn").on("click",function() {
@@ -145,8 +146,8 @@ tr>td:first-child {
 
       
       
+   		})
    })
-   
    
 </script>
 
@@ -238,7 +239,7 @@ tr>td:first-child {
              }
           }).open();
       
-      }
+       }
    </script>
 </body>
 </html>

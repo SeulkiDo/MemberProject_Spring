@@ -19,7 +19,7 @@
 
         <style>
             div{
-               border: 1px solidc black;
+               border: 1px solid black;
                 box-sizing: border-box;
                
             }
@@ -100,6 +100,40 @@
             .rightBtns{
             float:right;            
             }
+            
+            #commentWrapper{
+                width: 700px;
+                height: 400px;
+                margin: 100px auto;
+            }
+            #nameOfCommentBox{
+                height: 10%;
+            }
+            #commentTop{
+                width: 100%;
+                height: 65%;
+            }
+            .oneOfComments{
+                height: 20%;
+                width: 100%;
+                margin-left: 3px;
+            }
+            .pageNavi{
+                height: 5%;
+            }
+            #commentBottom{
+                width: 100%;
+                height: 20%;
+                margin-left: 3px;
+            }
+            #inputComment{
+                width:100%;
+                height: 100%;
+                overflow-y: scroll;
+            }
+            #commentBtn{
+                width: 100%;        
+            }
         </style>
         <script>
         $(function(){
@@ -109,13 +143,30 @@
                 })
                 
                  $("#deleteBtn").on("click",function(){
-                    $(location).attr("href","delete?seq=${selectedArticle.seq}");
+                    $(location).attr("href","delete_MembersOnly?seq=${selectedArticle.seq}");
                 })
                 
                 $("#editBtn").on("click",function(){
-                	$(location).attr("href","editForm?seq=${selectedArticle.seq}");
+                	$(location).attr("href","editForm_MembersOnly?seq=${selectedArticle.seq}");
                 })
-                  
+               
+                $("#commentBtn").on("click",function(){
+                	var comments = $("#inputComment").val();
+                	$.ajax({
+                		url:"insertComments",
+                		type: "post",
+                		dataType: "json",
+                		data: { seq : "${selectedArticle.seq}",
+                			   comments : "comments"
+                 			}
+                	
+                	}).done(function(resp){
+                		
+                		console.log("resp : " + resp);
+                		console.log("resp.comments : " + resp.comments);
+                		//$(".oneOfComments").append("<div class="col-8 commentTitle"></div><div class="col-2 commentWriter"></div><div class="col-2 commentDate"></div>");
+                	})
+                })
                  
         })
         
@@ -126,7 +177,7 @@
     </head>
     <body>
         <div class="container">
-        <form action="write" method="post" name="writeForm" id="writeForm" enctype="multipart/form-data">
+        <form action="write_MembersOnly" method="post" name="writeForm" id="writeForm" enctype="multipart/form-data">
             <div class="row" id="header">
              	<div class="col-2 headerTitle">
                      ${selectedArticle.seq}
@@ -166,6 +217,56 @@
                 </div>
             </div>
         </form>
-        </div>
+    </div>
+    
+    
+    
+    <div id=commentWrapper>
+        <div id="nameOfCommentBox"><p>댓글</p></div>
+        <form>
+            <div id=commentTop>
+
+               <div class="row oneOfComments">  
+<!--                     <div class="col-8 commentTitle"></div> -->
+<!--                     <div class="col-2 commentWriter"></div> -->
+<!--                     <div class="col-2 commentDate"></div> -->
+                </div>
+<!--            <div class="row oneOfComments">  
+                    <div class="col-8 commentTitle"></div>
+                    <div class="col-2 commentWriter"></div>
+                    <div class="col-2 commentDate"></div>
+                </div>
+                <div class="row oneOfComments">  
+                    <div class="col-8 commentTitle"></div>
+                    <div class="col-2 commentWriter"></div>
+                    <div class="col-2 commentDate"></div>
+                </div>
+                <div class="row oneOfComments">  
+                    <div class="col-8 commentTitle"></div>
+                    <div class="col-2 commentWriter"></div>
+                    <div class="col-2 commentDate"></div>
+                </div>
+                <div class="row oneOfComments">  
+                    <div class="col-8 commentTitle"></div>
+                    <div class="col-2 commentWriter"></div>
+                    <div class="col-2 commentDate"></div>
+                </div>
+                
+-->
+            </div>
+            <div class="row pageNavi">
+                페이지네비                
+            </div>
+            <div class="row" id="commentBottom">
+                <div class="col-10">
+                     <input type="text" id="inputComment" name="comment">
+                </div>
+                <div class="col-2">
+                     <input class="btn btns" id="commentBtn" value="댓글등록">
+                </div>
+            </div>
+        </form>
+    </div>
+    
 </body>
 </html>

@@ -5,6 +5,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+ 
 <title>Web Chat</title>
 <!-- Client -->
 <style>
@@ -68,7 +70,7 @@
 	</div>
 	
 	<script>
-		var socket = new WebSocket("ws://192.168.60.27/chat"); 
+		var socket = new WebSocket("ws://localhost/chat"); 
 		socket.onmessage = function(event){
 		/*2-1. 서버로부터 메시지가 도착한 경우 : contents에 받은 메세지 넣기*/
 		$(".contents").append(event.data);

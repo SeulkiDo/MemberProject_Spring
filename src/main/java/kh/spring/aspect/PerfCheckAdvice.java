@@ -22,7 +22,7 @@ public class PerfCheckAdvice {
 	@Autowired
 	HttpSession session;
 	
-	@Around("execution(* kh.spring.practice.HomeController.*(..))")
+	@Around("execution(* kh.spring.practice.*Controller.*(..))")
 	public Object perfCheck(ProceedingJoinPoint pjp) {
 		long startTime = System.currentTimeMillis();
 		
@@ -40,23 +40,30 @@ public class PerfCheckAdvice {
 		return retVal;		
 	}
 	
+	@Pointcut("execute(* kh.spring.practice.HomeController.logout(..))")
+	public void logout() {}
+	@Pointcut("execute(* kh.spring.practice.HomeController.getImage(..))")
+	public void getImage() {}
 	@Pointcut("execution(* kh.spring.practice.HomeController.myInfo(..))")
 	public void myInfo() {}	
 	@Pointcut("execution(* kh.spring.practice.HomeController.update*(..))")
 	public void update() {}
+	@Pointcut("execution(* kh.spring.practice.BoardController.*MembersOnly(..))")
+	public void membersOnly() {}
 	
-	@Around("myInfo() || update()")
+	//@Around("myInfo() || update()")
+	@Around("execution(* kh.spring.practice.BoardController.*_MembersOnly(..))")
 	public Object loginCheck(ProceedingJoinPoint pjp) {
 	//	int loginResult = (Integer) session.getAttribute("loginResult");
 		String loginId = (String) session.getAttribute("loginId");
-		System.out.println(loginId);
+		System.out.println("perfCheckAdvice" + loginId);
 		HttpServletRequest request = (HttpServletRequest) pjp.getArgs()[0]; //메서드 첫번째 인자값 request를 받아오면 쓸 수 있음!!
 		Object retVal = null;
 		try {
 			if(loginId!=null) {
 				retVal = pjp.proceed();
 			}else {
-				return "home";
+				return "alertDoLogin";
 			}
 		} catch (Throwable e) {
 			e.printStackTrace();

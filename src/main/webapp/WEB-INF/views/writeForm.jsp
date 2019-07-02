@@ -110,7 +110,7 @@
                    var formData = new FormData();
                    formData.append("formData",$(this)[0].files[0]);
                    $.ajax({
-                      url: "showImage",
+                      url: "getImage",
                       type: "post",
                       processData: false,
                       contentType: false,
@@ -118,8 +118,8 @@
                    }).done(function(resp){
                       console.log(resp);
                       var time = new Date().getTime();
-//                       $("#inputContents").append("<img src='/image/" + resp + "?time="+time + "'>");
-                      $("#inputContents").append("<img src='/image/" + resp + "'>");
+                      $("#inputContents").append("<img src='/images/temp/" + resp + "?time="+time + "'>");
+//                       $("#inputContents").append("<img src='/images/temp/" + resp + "'>");
                    })
                 })
                 
@@ -151,7 +151,7 @@
     </head>
     <body>
         <div class="container">
-        <form action="write" method="post" id="writeForm" enctype="multipart/form-data">
+        <form action="write_MembersOnly" method="post" id="writeForm" enctype="multipart/form-data">
             <div class="row" id="header"><div class="col-12 headerTitle"><h3>글작성</h3></div></div>
             <div class="row" id="titleBox">
                 <div class="col-12">
