@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import kh.spring.dao.BoardDAO;
 import kh.spring.dto.BoardDTO;
+import kh.spring.dto.CommentsDTO;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO{
@@ -136,5 +137,9 @@ public class BoardDAOImpl implements BoardDAO{
 		String sql = "delete from freeboard where seq=?";
 		return template.update(sql,seq);
 	}
-   
+	
+	/*댓글 목록*/
+   public List<CommentsDTO> commentsList(){
+	   sst.selectMap("MemberDAO.commentsList", mapKey)
+   }
 }

@@ -119,7 +119,7 @@ public class BoardController {
 //      }
     
       @RequestMapping("/read")
-      public String read(HttpServletRequest request) {
+      public String read(HttpServletRequest request, CommentsDTO dto) {
     	  System.out.println("/read");
     	  int seq = 0;
     	  if(request.getParameter("seq")==null) { //글수정 후 넘어왔을 때
@@ -127,6 +127,10 @@ public class BoardController {
     	  }else { //목록에서 넘어왔을 때
     		seq = Integer.parseInt(request.getParameter("seq"));
     	  }
+    	  System.out.println("seq(read) : " + seq);
+    	// System.out.println(dao.commentsList(seq).get(0).getComment());
+    
+    	 
          request.setAttribute("selectedArticle", dao.selectOneArticle(seq));
          session.removeAttribute("boardNo"); //세션에 담은 boardNo 삭제
       return "read";
@@ -189,7 +193,7 @@ public class BoardController {
     	  int seq = Integer.parseInt(request.getParameter("seq"));
     	  String writer = request.getParameter("writer"); 
     	  String comments = request.getParameter("comments");
-    	  cdto.setSeq(seq);
+    	  cdto.setB_seq(seq);
     	  cdto.setWriter(writer);
     	  cdto.setComment(comments);
     	  
@@ -201,5 +205,6 @@ public class BoardController {
     	  System.out.println(cdto.getComment()); 
     	  return new Gson().toJson(obj); 
       }
+  
       
 }

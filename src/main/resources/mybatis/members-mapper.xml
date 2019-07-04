@@ -10,6 +10,9 @@
 		select count(*) from members where id=#{id} and pw=#{pw}
 	</select>
 	
+	<select id="commentsList" resultType="kh.spring.dto.CommentsDTO">
+		select * from (select row_number() over(order by c_seq desc) as rown, board_comments.* from board_comments where b_seq=?) where rown between #{startNum} and #{endNum};
+	</select>
 	
 	
 </mapper>

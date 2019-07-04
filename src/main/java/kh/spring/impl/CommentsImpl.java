@@ -13,8 +13,8 @@ public class CommentsImpl implements CommentsDAO{
 	private JdbcTemplate template;
 	
 	public int insertComment(CommentsDTO dto) {
-		String sql = "insert into board_comments values(?,?,?,default)";
-  		return template.update(sql, dto.getSeq(), dto.getWriter(), dto.getComment());
+		String sql = "insert into board_comments values(?,board_comments_seq.nextval,?,?,default)";
+  		return template.update(sql, dto.getB_seq(), dto.getWriter(), dto.getComment());
 	}
 	
 }

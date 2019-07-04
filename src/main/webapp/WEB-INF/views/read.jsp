@@ -230,12 +230,13 @@
         <div id="nameOfCommentBox"><p>댓글</p></div>
         <form>
             <div id=commentTop>
-
-               <div class="row oneOfComments">  
-<!--                     <div class="col-8 commentTitle"></div> -->
-<!--                     <div class="col-2 commentWriter"></div> -->
-<!--                     <div class="col-2 commentDate"></div> -->
-                </div>
+             	<div class="row oneOfComments" index="index">  
+					<c:forEach var="commentsList" items="${commentsList}">
+		                    <div class="col-8 commentTitle">${commentsList.comment}</div>
+		                    <div class="col-2 commentWriter">${commentsList.writer}</div>
+		                    <div class="col-2 commentDate">${commentsList.writeDate}</div>
+					</c:forEach>
+				  </div>
 <!--            <div class="row oneOfComments">  
                     <div class="col-8 commentTitle"></div>
                     <div class="col-2 commentWriter"></div>

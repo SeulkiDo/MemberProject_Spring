@@ -3,26 +3,34 @@ package kh.spring.dto;
 import java.sql.Timestamp;
 
 public class CommentsDTO {
-	private int seq;
+	private int b_seq;
+	private int c_seq;
 	private String writer;
 	private String comment;
 	private Timestamp writerDate;
 	
 	
 	public CommentsDTO() {
-		super();
 	}
-	public CommentsDTO(int seq, String writer, String comment, Timestamp writerDate) {
-		this.seq = seq;
+	public CommentsDTO(int b_seq, int c_seq, String writer, String comment, Timestamp writerDate) {
+		super();
+		this.b_seq = b_seq;
+		this.c_seq = c_seq;
 		this.writer = writer;
 		this.comment = comment;
 		this.writerDate = writerDate;
 	}
-	public int getSeq() {
-		return seq;
+	public int getB_seq() {
+		return b_seq;
 	}
-	public void setSeq(int seq) {
-		this.seq = seq;
+	public void setB_seq(int b_seq) {
+		this.b_seq = b_seq;
+	}
+	public int getC_seq() {
+		return c_seq;
+	}
+	public void setC_seq(int c_seq) {
+		this.c_seq = c_seq;
 	}
 	public String getWriter() {
 		return writer;
@@ -42,6 +50,8 @@ public class CommentsDTO {
 	public void setWriterDate(Timestamp writerDate) {
 		this.writerDate = writerDate;
 	}
+	
+	
 	
 	
 }
